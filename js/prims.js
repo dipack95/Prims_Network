@@ -134,6 +134,28 @@ function populateGraphDetails(graph) {
     }
 }
 
+function components(adjmat){ 
+    var stack = [];
+    var visited = [];
+    var node;
+    var current = 0;
+    stack.push(current);
+    visited[current] = true;
+    while (stack.length) {
+        node = stack.pop();
+
+        for (var i = 0; i < adjmat[node].length; i += 1) {
+            if (adjmat[node][i] && !visited[i]) {
+                stack.push(i);
+                visited[i] = true;
+            }
+        }
+  
+    }
+
+    return visited.length;
+}
+
 function populateAndDrawGraph(graph) {
     removeGraphSvg();
     populateGraphDetails(graph);
@@ -159,4 +181,31 @@ function init(g) {
     g.addEdge('Kolhapur', 'Sonapur', 4);
     g.addEdge('Sonapur', 'Ratnagiri', 2);
     g.addEdge('Kolhapur', 'Ratnagiri', 4);
+
+    var adjmat = new Array(g.nodes.length);
+    for(var i = 0; i < g.nodes.length; i++){
+        adjmat[i] = new Array(g.nodes.length);
+    }
+
+    for(var i = 0; i < g.nodes.length; i++){
+        for(var j = 0; j < g.nodes.length; j++){
+            adjmat[i][j] = 0;
+        }
+    }
+    var names = g.nodes;
+
+    for(var i = 0; i < g.nodes.length; i++){
+        for(var j = 0; j < g.edges[names[i]].length; j++){
+            adjmat[g.nodes.indexOf(g.edges[names[i]][j].source)][g.nodes.indexOf(g.edges[names[i]][j].sink)] += 1;
+        }
+    }
+
+    var num = components(adjmat);
+
+    console.log(num);
+
+    if(num < g.nodes.length){
+        alert("Invalid input!");
+    }
+
 }
