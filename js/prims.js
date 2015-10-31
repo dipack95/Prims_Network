@@ -12,6 +12,7 @@ var Graph = function() {
     this.edges = {};
     this.nodes = [];
     this.nodeMap = {};
+    this.adjmat;
 
     // Add a node to the graph
     this.addNode = function(node) {
@@ -71,6 +72,48 @@ var Graph = function() {
         }
         return null;
     };
+
+    this.populateAdjacencyMatrix = function(){
+        this.adjmat = new Array(this.nodes.length);
+        for(var i = 0; i < this.nodes.length; i++){
+            this.adjmat[i] = new Array(this.nodes.length);
+        }
+
+        for(var i = 0; i < this.nodes.length; i++){
+            for(var j = 0; j < this.nodes.length; j++){
+                this.adjmat[i][j] = 0;
+            }
+        }
+        var names = this.nodes;
+
+        for(var i = 0; i < this.nodes.length; i++){
+            for(var j = 0; j < this.edges[names[i]].length; j++){
+                this.adjmat[this.nodes.indexOf(this.edges[names[i]][j].source)][this.nodes.indexOf(this.edges[names[i]][j].sink)] += 1;
+            }
+        }
+    }
+
+    this.calculateComponents = function (){
+        this.populateAdjacencyMatrix();
+        var stack = [];
+        var visited = [];
+        var node;
+        var current = 0;
+        stack.push(current);
+        visited[current] = true;
+        while (stack.length) {
+            node = stack.pop();
+
+            for (var i = 0 ; i < this.adjmat[node].length ; i += 1) {
+                if (this.adjmat[node][i] && !visited[i]) {
+                    stack.push(i);
+                    visited[i] = true;
+                }
+            }
+      
+        }
+        return visited.length;
+    }
 };
 
 function Prim(graph) {
@@ -134,32 +177,22 @@ function populateGraphDetails(graph) {
     }
 }
 
-function components(adjmat){ 
-    var stack = [];
-    var visited = [];
-    var node;
-    var current = 0;
-    stack.push(current);
-    visited[current] = true;
-    while (stack.length) {
-        node = stack.pop();
-
-        for (var i = 0; i < adjmat[node].length; i += 1) {
-            if (adjmat[node][i] && !visited[i]) {
-                stack.push(i);
-                visited[i] = true;
-            }
-        }
-  
+function isInputValid(graph){
+    if(graph.calculateComponents() < graph.nodes.length){
+        return 0;
     }
-
-    return visited.length;
+    return 1;
 }
 
 function populateAndDrawGraph(graph) {
-    removeGraphSvg();
-    populateGraphDetails(graph);
-    drawGraph(graphDetails);
+    if(isInputValid(graph)){
+        graph.populateAdjacencyMatrix();
+        removeGraphSvg();
+        populateGraphDetails(graph);
+        drawGraph(graphDetails);
+    } else {
+        alert("Graph entered is invalid!");
+    }
 }
 
 function init(g) {
@@ -181,31 +214,5 @@ function init(g) {
     g.addEdge('Kolhapur', 'Sonapur', 4);
     g.addEdge('Sonapur', 'Ratnagiri', 2);
     g.addEdge('Kolhapur', 'Ratnagiri', 4);
-
-    var adjmat = new Array(g.nodes.length);
-    for(var i = 0; i < g.nodes.length; i++){
-        adjmat[i] = new Array(g.nodes.length);
-    }
-
-    for(var i = 0; i < g.nodes.length; i++){
-        for(var j = 0; j < g.nodes.length; j++){
-            adjmat[i][j] = 0;
-        }
-    }
-    var names = g.nodes;
-
-    for(var i = 0; i < g.nodes.length; i++){
-        for(var j = 0; j < g.edges[names[i]].length; j++){
-            adjmat[g.nodes.indexOf(g.edges[names[i]][j].source)][g.nodes.indexOf(g.edges[names[i]][j].sink)] += 1;
-        }
-    }
-
-    var num = components(adjmat);
-
-    console.log(num);
-
-    if(num < g.nodes.length){
-        alert("Invalid input!");
-    }
 
 }
