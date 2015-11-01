@@ -542,18 +542,12 @@
                                       });
 
                                       $('#draw-graph-button').click(function() {
-                                          if (isInputValid(g)) {
-                                              populateAndDrawGraph(g);
-                                          } else {
-                                              alert("The given graph has more than one component.\nNo MST can be drawn.");
-                                          }
+                                          populateAndDrawGraph(g);
                                       });
 
                                       $('#draw-mst-button').click(function() {
                                           if (isInputValid(g)) {
-                                              console.log(g.calculateComponents());
                                               populateAndDrawGraph(resultMst);
-                                              console.log(resultMst);
                                           } else {
                                               alert("The given graph has more than one component.\nNo MST can be drawn.");
                                           }

@@ -107,14 +107,13 @@ var Graph = function() {
 
             for (var i = 0 ; i < this.adjmat[node].length ; i += 1) {
                 if (this.adjmat[node][i] && !visited[i]) {
-                    console.log("Visiting:", i);
                     stack.push(i);
                     visited[i] = true;
                 }
             }
       
         }
-        console.log("Visited:", visited);
+        
         for(var j = 0; j < visited.length; j++) {
             if(!visited[j])
                 return 0;
