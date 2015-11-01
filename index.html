@@ -43,6 +43,16 @@
         fill: none;
         stroke: #bbb;
       }
+
+      .deleteBtn{
+        margin: auto;
+        display: block;
+      }
+
+      .btn .btn-primary{
+        margin: auto;
+        display: block;
+      }
     </style>
 
   </head>
@@ -74,47 +84,33 @@
               </div>
               </div><!-- end container -->
               </header><!-- end header -->
+
               <div id="DeleteEdgeModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
+                  <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;  </button>
-                      <h4 class="modal-title" id="myModalLabel">Remove the road that is disconnected:</h4>
+                      <h4 class="modal-title" id="myModalLabel">Choose an edge to delete:</h4>
                     </div>
                     <div class="modal-body">
-                      <div class="input-group">
-                          <h5>Source</h5>
-                          <select id="delete-source-dropdown" class="btn btn-primary">
-                          </select>
-                        
-                      </div>
-                      <br>
-                      <div class="input-group">
-                          <h5>Destination</h5>
-                          <!--<h5>Destination</h5>-->
-                          <select id="delete-destination-dropdown" class="btn btn-primary">
-                          </select>
-                        
-                      </div>
-                      <br>
-                      <div class="input-group">
-                        <span class="input-group-addon">Distance</span>
-                        <input type="text" class="form-control" placeholder="Distance" aria-describedby="sizing-addon2" id="delete-edge-weight">
-                      </div>
-<br>
-                      <div class="alert alert-danger alert-dismissible collapse" role="alert" id="delete-edge-error">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <strong>Error:</strong> Check the Village input
-                      </div>
+                      <table class="table table-striped" style="width:100%" id="delete-edge-table">
+                        <th>
+                          <td>Source</td>
+                          <td>Destination</td>
+                          <td>Distance</td>
+                          <td></td>
+                        </th>
+                      </table>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary" id="delete-edge-button">Save changes</button>
                     </div>
                   </div>
                 </div>
+                </div>
               </div>
-<div id="CreateGridModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+              <div id="CreateGridModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -133,6 +129,7 @@
                   </div>
                 </div>
               </div>
+
               <div id="ContactModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                   <div class="modal-content">
@@ -150,6 +147,7 @@
                   </div>
                 </div>
               </div>
+
               <div id="CostModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                   <div class="modal-content">
@@ -168,6 +166,7 @@
                   </div>
                 </div>
               </div>
+
               <div id="EdgeListModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                   <div class="modal-content">
@@ -532,7 +531,7 @@
                                         $('#add-edge-error').show();
                                       }
                                       else {
-                                        g.addEdge(source, dest, capacity);
+                                        g.addEdge(source, dest, parseInt(capacity));
                                         modifierHandler();
                                         populateAndDrawGraph(g);
                                         $('#AddEdgeModal').modal('hide');
@@ -563,7 +562,11 @@
                                       });
 
                                       $('#draw-mst-button').click(function() {
+                                        if(isInputValid(g)){
                                           populateAndDrawGraph(resultMst);
+                                        } else {
+                                          alert("The given graph has more than one component.\nNo MST can be drawn.");
+                                        }
                                       });
 
                                       $('#draw-alt-button').click(function() {
@@ -573,11 +576,10 @@
                                               altg.deleteEdge(resultTree[i][0], resultTree[i][1], resultTree[i][2]);
                                           }
                                           var newoutput = Prim(altg);
-                                          if (newoutput.edges.length == (newoutput.nodesInPath.length - 1)) {
+                                          if (isInputValid(altg)) {
                                               populateAndDrawGraph(newoutput.mst);
                                           } else {
-                                              alert("No alternative tree found!");
-                                              populateAndDrawGraph(g);
+                                              alert("The alternative graph has more than one component.\nNo MST can be drawn.");
                                           }
                                       });
 
@@ -593,7 +595,19 @@
                                           if(g.nodes.indexOf(result[i + 1]) < 0) g.addNode(result[i + 1]);
                                           g.addEdge(result[i], result[i + 1], result[i + 2]);
                                         }
-                                        
+
+                                        if(isInputValid(g)){
+                                          modifierHandler();
+                                          populateAndDrawGraph(g);
+                                        } else {
+                                          alert("Graph entered is invalid!\nPlease re-enter the graph details!");
+                                        }
+                                      });
+
+                                      $('#delete-edge-table').on('click', '.deleteBtn', function(){
+                                        var result = $(this).val().split(",");
+                                        console.log(result);
+                                        g.deleteEdge(result[0], result[1], result[2]);
                                         modifierHandler();
                                         populateAndDrawGraph(g);
                                       });
@@ -601,8 +615,7 @@
                                       function clearAll() {
                                           $('#add-source-dropdown').empty();
                                           $('#add-destination-dropdown').empty();
-                                          $('#delete-source-dropdown').empty();
-                                          $('#delete-destination-dropdown').empty();
+                                          $('#delete-edge-table').empty();
                                           $('#edge-table-list').empty();
 
                                           $('#cable-cost').empty();
@@ -623,25 +636,24 @@
 
                                       function modifierHandler() {
                                           clearAll();
-                                          populateLists();
-                                          calculateCosts();
                                           var tempOutput = Prim(g);
                                           resultTree = tempOutput.edges, resultMst = tempOutput.mst;
+                                          populateLists();
+                                          calculateCosts();
                                       }
 
                                       function populateLists() {
                                           for (var i = 0; i < g.nodes.length; i++) {
                                               $('#add-source-dropdown').append('<option value="' + g.nodes[i] + '">' + g.nodes[i] + '</option>');
                                               $('#add-destination-dropdown').append('<option value="' + g.nodes[i] + '">' + g.nodes[i] + '</option>');
-
-                                              $('#delete-source-dropdown').append('<option value="' + g.nodes[i] + '">' + g.nodes[i] + '</option>');
-                                              $('#delete-destination-dropdown').append('<option value="' + g.nodes[i] + '">' + g.nodes[i] + '</option>');
                                           }
 
                                           var k = 0;
                                           for (var i = 0; i < g.nodes.length; i++) {
-                                              for (var j = 0; j < g.edges[g.nodes[i]].length; j++) {
-                                                  $('#edge-table-list').append('<tr><td>' + (k+++1) + '</td><td>' + g.edges[g.nodes[i]][j].source + '</td><td>' + g.edges[g.nodes[i]][j].sink + '</td><td>' + g.edges[g.nodes[i]][j].capacity + '</td></tr>');
+                                              for (var j = 0; j < g.edges[g.nodes[i]].length; j++, k++) {
+                                                  $('#edge-table-list').append('<tr><td>' + (k + 1) + '</td><td>' + g.edges[g.nodes[i]][j].source + '</td><td>' + g.edges[g.nodes[i]][j].sink + '</td><td>' + g.edges[g.nodes[i]][j].capacity + '</td></tr>');
+
+                                                  $('#delete-edge-table').append('<tr><td>' + (k + 1) + '</td><td>' + g.edges[g.nodes[i]][j].source + '</td><td>' + g.edges[g.nodes[i]][j].sink + '</td><td>' + g.edges[g.nodes[i]][j].capacity + '</td><td><button class="deleteBtn btn btn-primary" value="' + g.edges[g.nodes[i]][j].source + ',' + g.edges[g.nodes[i]][j].sink + ','+ g.edges[g.nodes[i]][j].capacity + '">Delete</button></td></tr>');
                                               }
                                           }
                                       }

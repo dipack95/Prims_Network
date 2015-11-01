@@ -185,14 +185,10 @@ function isInputValid(graph){
 }
 
 function populateAndDrawGraph(graph) {
-    if(isInputValid(graph)){
-        graph.populateAdjacencyMatrix();
-        removeGraphSvg();
-        populateGraphDetails(graph);
-        drawGraph(graphDetails);
-    } else {
-        alert("Graph entered is invalid!");
-    }
+    graph.populateAdjacencyMatrix();
+    removeGraphSvg();
+    populateGraphDetails(graph);
+    drawGraph(graphDetails);
 }
 
 function init(g) {
