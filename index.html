@@ -603,7 +603,11 @@
                                               modifierHandler();
                                               populateAndDrawGraph(g);
                                           } else {
-                                              alert("Graph entered is invalid!\nPlease re-enter the graph details!");
+                                              alert("Graph entered has more than one component!\nPlease re-enter the graph!");
+                                              g = new Graph(); 
+                                              init(g);
+                                              modifierHandler();
+                                              populateAndDrawGraph(g);
                                           }
                                       });
 
