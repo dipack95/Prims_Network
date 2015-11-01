@@ -6,7 +6,7 @@ var color = d3.scale.category20();
 var force = d3.layout.force()
     .linkDistance(150)
     .linkStrength(2)
-    .charge(-1000)
+    .charge(-1500)
     .size([width, height]);
 
 var svg;

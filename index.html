@@ -49,6 +49,13 @@
         display: block;
       }
 
+      .td {
+        text-align: center;
+        vertical-align:middle;
+        margin: auto;
+        display: block;
+      }
+
       .btn .btn-primary{
         margin: auto;
         display: block;
@@ -90,7 +97,7 @@
                   <div class="modal-content">
                     <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;  </button>
-                      <h4 class="modal-title" id="myModalLabel">Choose an edge to delete:</h4>
+                      <h4 class="modal-title" id="myModalLabel">Choose a road to delete</h4>
                     </div>
                     <div class="modal-body">
                       <table class="table table-striped" style="width:100%" id="delete-edge-table">
@@ -115,11 +122,10 @@
                   <div class="modal-content">
                     <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;  </button>
-                      <h4 class="modal-title" id="myModalLabel">Add a new grid:</h4>
+                      <h4 class="modal-title" id="myModalLabel">Add a new power grid</h4>
                     </div>
                     <div class="modal-body">
                       <h4>Format: Source, Destination, Distance</h4>
-                      <!--<input type="textarea" class="form-control" placeholder="NewGrid" aria-describedby="sizing-addon2" id="add-new-grid">-->
                       <textarea rows="10" cols="50" class="form-control" id="add-new-grid"></textarea>
                     </div>
                     <div class="modal-footer">
@@ -135,7 +141,7 @@
                   <div class="modal-content">
                     <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;  </button>
-                      <h4 class="modal-title" id="myModalLabel">Contact Us at:</h4>
+                      <h4 class="modal-title" id="myModalLabel">Contact Us</h4>
                     </div>
                     <div class="modal-body">
                       <p>email: info@mahadiscom.in</p>
@@ -153,7 +159,7 @@
                   <div class="modal-content">
                     <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;  </button>
-                      <h4 class="modal-title" id="myModalLabel">Cost for laying cables:</h4>
+                      <h4 class="modal-title" id="myModalLabel">Cost for laying cables</h4>
                     </div>
                     <div class="modal-body">
                       <p id="cable-cost"></p>
@@ -172,7 +178,7 @@
                   <div class="modal-content">
                     <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;  </button>
-                      <h4 class="modal-title" id="myModalLabel">Edge List:</h4>
+                      <h4 class="modal-title" id="myModalLabel">List of Roads</h4>
                     </div>
                     <div class="modal-body">
                       <table class="table table-striped" style="width:100%" id="edge-table-list">
@@ -195,27 +201,23 @@
                   <div class="modal-content">
                     <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;  </button>
-                      <h4 class="modal-title" id="myModalLabel">Add a connecting road:</h4>
+                      <h4 class="modal-title" id="myModalLabel">Add a connecting road</h4>
                     </div>
                     <div class="modal-body">
                       <div class="input-group">
-                          <h5>Source</h5>
-                          <select id="add-source-dropdown" class="btn btn-primary">
-                          </select>
-                        
+                          <h4>Source</h4>
+                          <select id="add-source-dropdown" class="btn"></select>
                       </div>
                       <br>
                       <div class="input-group">
-                          <h5>Destination</h5>
-                          <select id="add-destination-dropdown" class="btn btn-primary">
-                          </select>
+                          <h4>Destination</h4>
+                          <select id="add-destination-dropdown" class="btn"></select>
                       </div>
                       <br>
-                      <div class="input-group">
-                        <span class="input-group-addon">Distance</span>
+                      <div class="input-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <input type="text" class="form-control" placeholder="Distance" aria-describedby="sizing-addon2" id="add-edge-weight">
                       </div>
-<br>
+                      <br>
                       <div class="alert alert-danger alert-dismissible collapse" role="alert" id="add-edge-error">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <strong>Error:</strong> Check the Input
@@ -235,14 +237,13 @@
                   <div class="modal-content">
                     <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;  </button>
-                      <h4 class="modal-title" id="myModalLabel">Add a connecting road:</h4>
+                      <h4 class="modal-title" id="myModalLabel">Add a connecting road</h4>
                     </div>
                     <div class="modal-body">
-                      <div class="input-group">
-                        <span class="input-group-addon">Village Name</span>
+                      <div class="input-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <input type="text" class="form-control" placeholder="Village Name" aria-describedby="sizing-addon2" id="add-village">
                       </div>
-<br>
+                      <br>
                       <div class="alert alert-danger alert-dismissible collapse" role="alert" id="village-IP-error">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <strong>Error:</strong> Check the Village input
@@ -386,7 +387,7 @@
                           
                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="widget">
-                              <h3>CURRENT LAYOUT</h3>
+                              <h3>Current Layout</h3>
                               <div id="graph-canvas" style="width:100%; height:500px">
                                 
                               </div><!-- end graph-canvas -->
@@ -506,6 +507,10 @@
                                       var resultTree = output.edges,
                                           resultMst = output.mst;
 
+                                      if(g.nodes.length > 10){
+                                        $('#graph-canvas').css("height", ((g.nodes.length - 10) * 10) + 500);
+                                      }
+
                                       populateAndDrawGraph(g);
 
                                       populateLists();
@@ -587,14 +592,33 @@
                                         g = new Graph();
                                         var data = $('#add-new-grid').val();
                                         var result = data.split(",");
-                                        for(var i = 0 ; i < result.length ; i += 3){
+                                        if((result.length % 3) == 0){
+                                          for(var i = 0 ; i < result.length ; i += 3){
 
-                                          result[i] = result[i].replace(/^\s+|\s+$/g,''), result[i + 1] = result[i + 1].replace(/^\s+|\s+$/g,''), result[i + 2] = result[i + 2].replace(/^\s+|\s+$/g,'');
+                                            result[i] = result[i].replace(/^\s+|\s+$/g,''), result[i + 1] = result[i + 1].replace(/^\s+|\s+$/g,''), result[i + 2] = result[i + 2].replace(/^\s+|\s+$/g,'');
 
-                                          if(g.nodes.indexOf(result[i]) < 0) g.addNode(result[i]);
-                                          if(g.nodes.indexOf(result[i + 1]) < 0) g.addNode(result[i + 1]);
-                                          g.addEdge(result[i], result[i + 1], result[i + 2]);
+                                            if(Object.prototype.toString.call(result[i]) == '[object String]') {
+                                              if(Object.prototype.toString.call(result[i + 1]) == '[object String]') {
+                                                if(!isNaN(parseInt(result[i + 2]))){
+                                                  if(g.nodes.indexOf(result[i]) < 0) g.addNode(result[i]);
+                                                  if(g.nodes.indexOf(result[i + 1]) < 0) g.addNode(result[i + 1]);
+                                                  g.addEdge(result[i], result[i + 1], result[i + 2]);
+                                                } else {
+                                                  alert(result[i + 2] + " is not a number!");
+                                                }
+                                              } else {
+                                                alert(result[i + 1] + " is not a string/character!");
+                                              } 
+                                            } else {
+                                              alert(result[i] + " is not a string/character!");
+                                            }
+
+                                          }
+                                        } else {
+                                          alert("Grid input incorrect!");
                                         }
+
+                                        clearAll();
 
                                         if(isInputValid(g)){
                                           modifierHandler();
@@ -640,6 +664,11 @@
                                           resultTree = tempOutput.edges, resultMst = tempOutput.mst;
                                           populateLists();
                                           calculateCosts();
+
+                                          if(g.nodes.length > 10){
+                                            $('#graph-canvas').css("height", ((g.nodes.length - 10) * 10) + 500);
+                                          }
+
                                       }
 
                                       function populateLists() {
@@ -653,7 +682,7 @@
                                               for (var j = 0; j < g.edges[g.nodes[i]].length; j++, k++) {
                                                   $('#edge-table-list').append('<tr><td>' + (k + 1) + '</td><td>' + g.edges[g.nodes[i]][j].source + '</td><td>' + g.edges[g.nodes[i]][j].sink + '</td><td>' + g.edges[g.nodes[i]][j].capacity + '</td></tr>');
 
-                                                  $('#delete-edge-table').append('<tr><td>' + (k + 1) + '</td><td>' + g.edges[g.nodes[i]][j].source + '</td><td>' + g.edges[g.nodes[i]][j].sink + '</td><td>' + g.edges[g.nodes[i]][j].capacity + '</td><td><button class="deleteBtn btn btn-primary" value="' + g.edges[g.nodes[i]][j].source + ',' + g.edges[g.nodes[i]][j].sink + ','+ g.edges[g.nodes[i]][j].capacity + '">Delete</button></td></tr>');
+                                                  $('#delete-edge-table').append('<tr><td>' + (k + 1) + '</td><td>' + g.edges[g.nodes[i]][j].source + '</td><td>' + g.edges[g.nodes[i]][j].sink + '</td><td>' + g.edges[g.nodes[i]][j].capacity + '</td><td><button class="deleteBtn btn" value="' + g.edges[g.nodes[i]][j].source + ',' + g.edges[g.nodes[i]][j].sink + ','+ g.edges[g.nodes[i]][j].capacity + '">Delete</button></td></tr>');
                                               }
                                           }
                                       }
