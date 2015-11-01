@@ -507,8 +507,8 @@
                                       var resultTree = output.edges,
                                           resultMst = output.mst;
 
-                                      if(g.nodes.length > 10){
-                                        $('#graph-canvas').css("height", ((g.nodes.length - 10) * 10) + 500);
+                                      if (g.nodes.length > 10) {
+                                          $('#graph-canvas').css("height", ((g.nodes.length - 10) * 10) + 500);
                                       }
 
                                       populateAndDrawGraph(g);
@@ -516,62 +516,47 @@
                                       populateLists();
                                       calculateCosts();
 
-                                      $('#add-village-button').click(function(){
-                                        if($('#add-village').val() == '') {
-                                          $('#village-IP-error').show();
-                                        }
-                                        else {
-                                          g.addNode($('#add-village').val());
-                                          modifierHandler();
-                                          populateAndDrawGraph(g);
-                                          $('#AddVillageModal').modal('hide');
-                                        }
-                                    });
+                                      $('#add-village-button').click(function() {
+                                          if ($('#add-village').val() == '') {
+                                              $('#village-IP-error').show();
+                                          } else {
+                                              g.addNode($('#add-village').val());
+                                              modifierHandler();
+                                              populateAndDrawGraph(g);
+                                              $('#AddVillageModal').modal('hide');
+                                          }
+                                      });
 
-                                    $('#add-edge-button').click(function(){
-                                      var source = $('#add-source-dropdown').val();
-                                      var dest = $('#add-destination-dropdown').val();  
-                                      var capacity = $('#add-edge-weight').val();
-                                      if(capacity == '') {
-                                        $('#add-edge-error').show();
-                                      }
-                                      else {
-                                        g.addEdge(source, dest, parseInt(capacity));
-                                        modifierHandler();
-                                        populateAndDrawGraph(g);
-                                        $('#AddEdgeModal').modal('hide');
-                                      }
-                                    });  
-
-                                    $('#delete-edge-button').click(function(){
-                                      var source = $('#delete-source-dropdown').val();
-                                      var dest = $('#delete-destination-dropdown').val();  
-                                      var capacity = $('#delete-edge-weight').val();
-                                      if(capacity == '') {
-                                        $('#delete-edge-error').show(); 
-                                      }
-                                      else {
-                                        if(g.deleteEdge(source, dest, capacity)) {
-                                          modifierHandler();
-                                          populateAndDrawGraph(g);
-                                          $('#DeleteEdgeModal').modal('hide');
-                                        }
-                                        else {
-                                          $('#delete-edge-error').show(); 
-                                        }
-                                      }
-                                    });
+                                      $('#add-edge-button').click(function() {
+                                          var source = $('#add-source-dropdown').val();
+                                          var dest = $('#add-destination-dropdown').val();
+                                          var capacity = $('#add-edge-weight').val();
+                                          if (capacity == '') {
+                                              $('#add-edge-error').show();
+                                          } else {
+                                              g.addEdge(source, dest, parseInt(capacity));
+                                              modifierHandler();
+                                              populateAndDrawGraph(g);
+                                              $('#AddEdgeModal').modal('hide');
+                                          }
+                                      });
 
                                       $('#draw-graph-button').click(function() {
-                                          populateAndDrawGraph(g);
+                                          if (isInputValid(g)) {
+                                              populateAndDrawGraph(g);
+                                          } else {
+                                              alert("The given graph has more than one component.\nNo MST can be drawn.");
+                                          }
                                       });
 
                                       $('#draw-mst-button').click(function() {
-                                        if(isInputValid(g)){
-                                          populateAndDrawGraph(resultMst);
-                                        } else {
-                                          alert("The given graph has more than one component.\nNo MST can be drawn.");
-                                        }
+                                          if (isInputValid(g)) {
+                                              console.log(g.calculateComponents());
+                                              populateAndDrawGraph(resultMst);
+                                              console.log(resultMst);
+                                          } else {
+                                              alert("The given graph has more than one component.\nNo MST can be drawn.");
+                                          }
                                       });
 
                                       $('#draw-alt-button').click(function() {
@@ -588,52 +573,52 @@
                                           }
                                       });
 
-                                      $('#add-grid-button').click(function(){
-                                        g = new Graph();
-                                        var data = $('#add-new-grid').val();
-                                        var result = data.split(",");
-                                        if((result.length % 3) == 0){
-                                          for(var i = 0 ; i < result.length ; i += 3){
+                                      $('#add-grid-button').click(function() {
+                                          g = new Graph();
+                                          var data = $('#add-new-grid').val();
+                                          var result = data.split(",");
+                                          if ((result.length % 3) == 0) {
+                                              for (var i = 0; i < result.length; i += 3) {
 
-                                            result[i] = result[i].replace(/^\s+|\s+$/g,''), result[i + 1] = result[i + 1].replace(/^\s+|\s+$/g,''), result[i + 2] = result[i + 2].replace(/^\s+|\s+$/g,'');
+                                                  result[i] = result[i].replace(/^\s+|\s+$/g, ''), result[i + 1] = result[i + 1].replace(/^\s+|\s+$/g, ''), result[i + 2] = result[i + 2].replace(/^\s+|\s+$/g, '');
 
-                                            if(Object.prototype.toString.call(result[i]) == '[object String]') {
-                                              if(Object.prototype.toString.call(result[i + 1]) == '[object String]') {
-                                                if(!isNaN(parseInt(result[i + 2]))){
-                                                  if(g.nodes.indexOf(result[i]) < 0) g.addNode(result[i]);
-                                                  if(g.nodes.indexOf(result[i + 1]) < 0) g.addNode(result[i + 1]);
-                                                  g.addEdge(result[i], result[i + 1], result[i + 2]);
-                                                } else {
-                                                  alert(result[i + 2] + " is not a number!");
-                                                }
-                                              } else {
-                                                alert(result[i + 1] + " is not a string/character!");
-                                              } 
-                                            } else {
-                                              alert(result[i] + " is not a string/character!");
-                                            }
+                                                  if (Object.prototype.toString.call(result[i]) == '[object String]') {
+                                                      if (Object.prototype.toString.call(result[i + 1]) == '[object String]') {
+                                                          if (!isNaN(parseInt(result[i + 2]))) {
+                                                              if (g.nodes.indexOf(result[i]) < 0) g.addNode(result[i]);
+                                                              if (g.nodes.indexOf(result[i + 1]) < 0) g.addNode(result[i + 1]);
+                                                              g.addEdge(result[i], result[i + 1], result[i + 2]);
+                                                          } else {
+                                                              alert(result[i + 2] + " is not a number!");
+                                                          }
+                                                      } else {
+                                                          alert(result[i + 1] + " is not a string/character!");
+                                                      }
+                                                  } else {
+                                                      alert(result[i] + " is not a string/character!");
+                                                  }
 
+                                              }
+                                          } else {
+                                              alert("Grid input incorrect!");
                                           }
-                                        } else {
-                                          alert("Grid input incorrect!");
-                                        }
 
-                                        clearAll();
+                                          clearAll();
 
-                                        if(isInputValid(g)){
-                                          modifierHandler();
-                                          populateAndDrawGraph(g);
-                                        } else {
-                                          alert("Graph entered is invalid!\nPlease re-enter the graph details!");
-                                        }
+                                          if (isInputValid(g)) {
+                                              modifierHandler();
+                                              populateAndDrawGraph(g);
+                                          } else {
+                                              alert("Graph entered is invalid!\nPlease re-enter the graph details!");
+                                          }
                                       });
 
-                                      $('#delete-edge-table').on('click', '.deleteBtn', function(){
-                                        var result = $(this).val().split(",");
-                                        console.log(result);
-                                        g.deleteEdge(result[0], result[1], result[2]);
-                                        modifierHandler();
-                                        populateAndDrawGraph(g);
+                                      $('#delete-edge-table').on('click', '.deleteBtn', function() {
+                                          var result = $(this).val().split(",");
+                                          console.log(result);
+                                          g.deleteEdge(result[0], result[1], result[2]);
+                                          modifierHandler();
+                                          populateAndDrawGraph(g);
                                       });
 
                                       function clearAll() {
@@ -667,8 +652,8 @@
                                           populateLists();
                                           calculateCosts();
 
-                                          if(g.nodes.length > 10){
-                                            $('#graph-canvas').css("height", ((g.nodes.length - 10) * 10) + 500);
+                                          if (g.nodes.length > 10) {
+                                              $('#graph-canvas').css("height", ((g.nodes.length - 10) * 10) + 500);
                                           }
 
                                       }
@@ -684,7 +669,7 @@
                                               for (var j = 0; j < g.edges[g.nodes[i]].length; j++, k++) {
                                                   $('#edge-table-list').append('<tr><td>' + (k + 1) + '</td><td>' + g.edges[g.nodes[i]][j].source + '</td><td>' + g.edges[g.nodes[i]][j].sink + '</td><td>' + g.edges[g.nodes[i]][j].capacity + '</td></tr>');
 
-                                                  $('#delete-edge-table').append('<tr><td>' + (k + 1) + '</td><td>' + g.edges[g.nodes[i]][j].source + '</td><td>' + g.edges[g.nodes[i]][j].sink + '</td><td>' + g.edges[g.nodes[i]][j].capacity + '</td><td><button class="deleteBtn btn" value="' + g.edges[g.nodes[i]][j].source + ',' + g.edges[g.nodes[i]][j].sink + ','+ g.edges[g.nodes[i]][j].capacity + '">Delete</button></td></tr>');
+                                                  $('#delete-edge-table').append('<tr><td>' + (k + 1) + '</td><td>' + g.edges[g.nodes[i]][j].source + '</td><td>' + g.edges[g.nodes[i]][j].sink + '</td><td>' + g.edges[g.nodes[i]][j].capacity + '</td><td><button class="deleteBtn btn" value="' + g.edges[g.nodes[i]][j].source + ',' + g.edges[g.nodes[i]][j].sink + ',' + g.edges[g.nodes[i]][j].capacity + '">Delete</button></td></tr>');
                                               }
                                           }
                                       }

@@ -198,8 +198,10 @@ function init(g) {
     g.addNode('Palampur');
     g.addNode('Sonapur');
     g.addNode('Ratnagiri');
+    g.addNode('Milan');
 
     g.addEdge('Sholapur', 'Palampur', 2);
+    g.addEdge('Milan', 'Rampur', 423);
     g.addEdge('Rampur', 'Palampur', 4);
     g.addEdge('Rampur', 'Sholapur', 1);
     g.addEdge('Sholapur', 'Kolhapur', 3);
