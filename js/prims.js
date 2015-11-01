@@ -99,7 +99,7 @@ var Graph = function() {
         var visited = [];
         var node;
         var current = 0;
-        console.log(this.adjmat);
+
         stack.push(current);
         visited[current] = true;
         while (stack.length) {

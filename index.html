@@ -613,7 +613,6 @@
 
                                       $('#delete-edge-table').on('click', '.deleteBtn', function() {
                                           var result = $(this).val().split(",");
-                                          console.log(result);
                                           g.deleteEdge(result[0], result[1], result[2]);
                                           modifierHandler();
                                           populateAndDrawGraph(g);
