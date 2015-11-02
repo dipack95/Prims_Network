@@ -384,6 +384,14 @@
                           </div><!-- end accordion first -->
                           </div><!-- end widget -->
                           </div><!-- end col-lg-6 -->
+
+                          <!-- General error message div -->
+                          <div class="alert alert-danger alert-dismissible collapse col-lg-12 col-md-12 col-sm-12 col-xs-12" role="alert" id="general-error">
+                          	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                          	<strong>ERROR</strong>
+                            <p id="general-error-message"></p>
+                      	  </div>
+                          <!-- END General error message div -->
                           
                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="widget">
@@ -549,7 +557,8 @@
               if (isInputValid(g)) {
                   populateAndDrawGraph(resultMst);
               } else {
-                  alert("The given graph has more than one component.\nNo MST can be drawn.");
+                  $('#general-error').show();
+                  $('#general-error-message').html('The given graph has more than one component.\nNo MST can be drawn.');
               }
           });
 
@@ -563,7 +572,8 @@
               if (isInputValid(altg)) {
                   populateAndDrawGraph(newoutput.mst);
               } else {
-                  alert("The alternative graph has more than one component.\nNo MST can be drawn.");
+                  $('#general-error').show();
+                  $('#general-error-message').html('The alternative graph has more than one component.\nNo MST can be drawn.');
               }
           });
 
@@ -640,6 +650,8 @@
               $('#delete-source-dropdown').val('');
               $('#delete-destination-dropdown').val('');
               $('#delete-edge-weight').val('');
+
+              $('#general-error-message').empty();
           }
 
           function modifierHandler() {
