@@ -204,19 +204,20 @@ function init(g) {
     g.addNode('Palampur');
     g.addNode('Sonapur');
     g.addNode('Ratnagiri');
-    g.addNode('Milan');
+    g.addNode('Parampur');
 
-    g.addEdge('Sholapur', 'Palampur', 2);
-    g.addEdge('Milan', 'Rampur', 423);
-    g.addEdge('Rampur', 'Palampur', 4);
-    g.addEdge('Rampur', 'Sholapur', 1);
-    g.addEdge('Sholapur', 'Kolhapur', 3);
-    g.addEdge('Rampur', 'Palampur', 3);
-    g.addEdge('Palampur', 'Sonapur', 3);
-    g.addEdge('Sholapur', 'Sonapur', 6);
-    g.addEdge('Sholapur', 'Ratnagiri', 5);
-    g.addEdge('Kolhapur', 'Sonapur', 4);
-    g.addEdge('Sonapur', 'Ratnagiri', 2);
-    g.addEdge('Kolhapur', 'Ratnagiri', 4);
+    g.addEdge('Sholapur', 'Palampur', 206);
+    g.addEdge('Parampur', 'Rampur', 423);
+    g.addEdge('Sonapur', 'Parampur', 800);
+    g.addEdge('Rampur', 'Palampur', 400);
+    g.addEdge('Rampur', 'Sholapur', 123);
+    g.addEdge('Sholapur', 'Kolhapur', 354);
+    g.addEdge('Rampur', 'Palampur', 370);
+    g.addEdge('Palampur', 'Sonapur', 390);
+    g.addEdge('Sholapur', 'Sonapur', 600);
+    g.addEdge('Sholapur', 'Ratnagiri', 550);
+    g.addEdge('Kolhapur', 'Sonapur', 490);
+    g.addEdge('Sonapur', 'Ratnagiri', 220);
+    g.addEdge('Kolhapur', 'Ratnagiri', 430);
 
 }
