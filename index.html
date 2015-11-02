@@ -125,7 +125,7 @@
                       <h4 class="modal-title" id="myModalLabel">Add a new power grid</h4>
                     </div>
                     <div class="modal-body">
-                      <h4>Format: Source, Destination, Distance</h4>
+                      <h4>Format: Source, Destination, Distance (Do not separate edges with new line)</h4>
                       <textarea rows="10" cols="50" class="form-control" id="add-new-grid"></textarea>
                     </div>
                     <div class="modal-footer">
@@ -684,9 +684,9 @@
               costOfTransformers *= 1000;
               costOfCables *= 1000;
 
-              $('#cable-cost').html('Distance: ' + costOfCables / 1000 + ' kilometres, and cost of cables is: ' + costOfCables);
+              $('#cable-cost').html('Distance: ' + costOfCables / 1000 + ' kilometres, and cost of cables is: Rs.' + costOfCables);
               $('#transfomer-number').html('Number of transformers: ' + costOfTransformers / 1000);
-              $('#transformer-cost').html('Cost of transformers: ' + costOfTransformers);
+              $('#transformer-cost').html('Cost of transformers: Rs.' + costOfTransformers);
           }
 
           var graphDetailsErrorChecker = function(graph) {
