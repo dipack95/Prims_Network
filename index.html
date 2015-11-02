@@ -219,8 +219,8 @@
                       </div>
                       <br>
                       <div class="alert alert-danger alert-dismissible collapse" role="alert" id="add-edge-error">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <strong>Error:</strong> Check the Input
+                        <p id="add-edge-error-field"></p>
+                        <button type="button" class="close-alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                       </div>
                     </div>
                     <div class="modal-footer">
@@ -245,8 +245,8 @@
                       </div>
                       <br>
                       <div class="alert alert-danger alert-dismissible collapse" role="alert" id="village-IP-error">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <strong>Error:</strong> Check the Village input
+                        <p id="add-village-error-field">Error: Check village input - name cannot be blank</p>
+                        <button type="button" class="close-alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                       </div>
                     </div>
                     <div class="modal-footer">
@@ -387,7 +387,7 @@
 
                           <!-- General error message div -->
                           <div class="alert alert-danger alert-dismissible collapse col-lg-12 col-md-12 col-sm-12 col-xs-12" role="alert" id="general-error">
-                          	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                          	<button type="button" class="close-alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                           	<strong>ERROR</strong>
                             <p id="general-error-message"></p>
                       	  </div>
@@ -539,8 +539,15 @@
               var source = $('#add-source-dropdown').val();
               var dest = $('#add-destination-dropdown').val();
               var capacity = $('#add-edge-weight').val();
-              if (capacity == '') {
-                  $('#add-edge-error').show();
+              if(source == dest) {
+                $('#add-edge-error-field').empty();
+                $('#add-edge-error-field').append('Error: Check source and destination input - cannot be the same');
+                $('#add-edge-error').show();
+              }
+              else if (capacity == '') {
+                $('#add-edge-error-field').empty();
+                $('#add-edge-error-field').append('Error: Check distance input - cannot be zero');
+                $('#add-edge-error').show();
               } else {
                   g.addEdge(source, dest, parseInt(capacity));
                   modifierHandler();
@@ -548,6 +555,12 @@
                   $('#AddEdgeModal').modal('hide');
               }
           });
+
+          $('.close-alert').click(function() {
+            $('.alert').hide();
+            $('#add-edge-error-field').empty();
+          });
+
 
           $('#draw-graph-button').click(function() {
               populateAndDrawGraph(g);
@@ -629,6 +642,8 @@
           });
 
           function clearAll() {
+              $('#village-IP-error-field').empty();
+              $('#add-edge-error-field').empty();
               $('#add-source-dropdown').empty();
               $('#add-destination-dropdown').empty();
               $('#delete-edge-table').empty();
