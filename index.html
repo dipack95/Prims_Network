@@ -508,6 +508,7 @@
 
     <script type="text/javascript">
       $(document).ready(function() {
+        var costOfCables = 0, costOfTransformers = 0;
           var g = new Graph();
           init(g);
           var altg = new Graph();
@@ -700,8 +701,7 @@
           }
 
           function calculateCosts() {
-              var costOfCables = 0,
-                  costOfTransformers = 0;
+              costOfCables = 0, costOfTransformers = 0;
 
               for (var i = 0; i < resultTree.length; i++) {
                   costOfCables += resultTree[i][2];
