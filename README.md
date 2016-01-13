@@ -1,0 +1,1 @@
+This is a Graph Theory based project to connect all the villages in an area, most efficiently. It uses the Prim's algorithm to construct the Minimum Spanning Tree for the graph. 
